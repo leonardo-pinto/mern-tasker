@@ -1,5 +1,5 @@
 import LoginForm from "../components/LoginForm";
-function Logout() {
+function Login() {
   return (
     <>
       <LoginForm/>
@@ -7,4 +7,4 @@ function Logout() {
   );
 }
 
-export default Logout;
+export default Login;
