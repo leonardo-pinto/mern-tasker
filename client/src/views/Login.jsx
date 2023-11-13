@@ -1,7 +1,8 @@
+import LoginForm from "../components/LoginForm";
 function Logout() {
   return (
     <>
-      <h1>LOGIN</h1>
+      <LoginForm/>
     </>
   );
 }
