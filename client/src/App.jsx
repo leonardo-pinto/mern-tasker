@@ -3,7 +3,6 @@ import NavigationBar from "./components/NavigationBar";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import Tasks from "./views/Tasks";
-import "./App.css";
 
 function App() {
   return (
