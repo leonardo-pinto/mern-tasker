@@ -1,33 +1,20 @@
-import { useState } from "react";
-import mernLogo from "./assets/logo.png";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import NavigationBar from "./components/NavigationBar";
+import Login from "./views/Login";
+import Register from "./views/Register";
+import Tasks from "./views/Tasks";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={mernLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>MERN Tasker</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <NavigationBar />
+        <Routes>
+          <Route exact path="/" element={<Tasks />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
