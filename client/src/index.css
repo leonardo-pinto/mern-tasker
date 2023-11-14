@@ -37,3 +37,12 @@ nav ul li {
 #logo {
   height: 80%;
 }
+
+#task-container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 50%;
+}
