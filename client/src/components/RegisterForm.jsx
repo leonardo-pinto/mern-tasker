@@ -8,7 +8,6 @@ function RegisterForm() {
   // function handleEmail(e) { setEmail(e.target.value) }
 
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   function handleUserName(e) {
     setUserName(e.target.value);
@@ -77,21 +76,6 @@ function RegisterForm() {
           }}
         />
 
-        <br />
-
-        <label htmlFor="confirmPassword">Confirm Password:</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
-        />
 
         <br />
 
