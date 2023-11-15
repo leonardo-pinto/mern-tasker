@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function CreateTaskDialog(props) {
-  const { setVisible } = props;
+  const { setVisible, createNewTask } = props;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -21,8 +21,18 @@ function CreateTaskDialog(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    alert(`Title: ${title}, description: ${description}, date: ${date}`);
+    handleCreateNewTask();
     setVisible();
+  }
+
+  function handleCreateNewTask() {
+    const task = {
+      title,
+      description,
+      date,
+      status: "Pending",
+    };
+    createNewTask(task);
   }
 
   return (

@@ -4,12 +4,7 @@ import CreateTaskDialog from "../components/CreateTaskDialog";
 
 function Tasks() {
   const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
-
-  function handleShowCreateTaskDialog() {
-    setShowCreateTaskDialog(!showCreateTaskDialog);
-  }
-
-  const tasks = [
+  const [tasks, setTasks] = useState([
     {
       _id: "1",
       title: "Study React",
@@ -31,14 +26,26 @@ function Tasks() {
       status: "Pending",
       date: "2023-11-24",
     },
-  ];
+  ]);
+
+  function handleShowCreateTaskDialog() {
+    setShowCreateTaskDialog(!showCreateTaskDialog);
+  }
+
+  function createNewTask(task) {
+    task._id = new Date();
+    setTasks([...tasks, task]);
+  }
 
   return (
     <>
       <h1>TASKS</h1>
       <button onClick={handleShowCreateTaskDialog}>Create New Task</button>
       {showCreateTaskDialog ? (
-        <CreateTaskDialog setVisible={handleShowCreateTaskDialog} />
+        <CreateTaskDialog
+          setVisible={handleShowCreateTaskDialog}
+          createNewTask={createNewTask}
+        />
       ) : (
         <></>
       )}
