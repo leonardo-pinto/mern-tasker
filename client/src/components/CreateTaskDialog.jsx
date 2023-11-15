@@ -3,20 +3,16 @@ import { useState } from "react";
 function CreateTaskDialog(props) {
   const { setVisible, createNewTask } = props;
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+  const [values, setValues] = useState({
+    title: "",
+    description: "",
+    date: "",
+    status: "Pending",
+  });
 
-  function handleTitle(e) {
-    setTitle(e.target.value);
-  }
-
-  function handleDescription(e) {
-    setDescription(e.target.value);
-  }
-
-  function handleDate(e) {
-    setDate(e.target.value);
+  function handleValues(e) {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
   }
 
   function handleSubmit(e) {
@@ -26,13 +22,7 @@ function CreateTaskDialog(props) {
   }
 
   function handleCreateNewTask() {
-    const task = {
-      title,
-      description,
-      date,
-      status: "Pending",
-    };
-    createNewTask(task);
+    createNewTask(values);
   }
 
   return (
@@ -63,8 +53,8 @@ function CreateTaskDialog(props) {
         <h1>Create New Task</h1>
         <label htmlFor="title">Title:</label>
         <input
-          value={title}
-          onChange={handleTitle}
+          value={values.title}
+          onChange={handleValues}
           type="text"
           id="title"
           name="title"
@@ -81,8 +71,8 @@ function CreateTaskDialog(props) {
 
         <label htmlFor="description">Description:</label>
         <input
-          value={description}
-          onChange={handleDescription}
+          value={values.description}
+          onChange={handleValues}
           type="text"
           id="description"
           name="description"
@@ -99,8 +89,8 @@ function CreateTaskDialog(props) {
 
         <label htmlFor="date">Date:</label>
         <input
-          value={date}
-          onChange={handleDate}
+          value={values.date}
+          onChange={handleValues}
           type="date"
           id="date"
           name="date"
