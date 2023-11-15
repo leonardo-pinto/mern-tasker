@@ -1,9 +1,10 @@
-function Logout() {
+import LoginForm from "../components/LoginForm";
+function Login() {
   return (
     <>
-      <h1>LOGIN</h1>
+      <LoginForm/>
     </>
   );
 }
 
-export default Logout;
+export default Login;
