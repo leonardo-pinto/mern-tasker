@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 
 function TheTask(props) {
-  const { title, description, status, date } = props.task;
+  const { _id, title, description, status, date } = props.task;
+  const { handleShowDeleteTaskDialog, handleShowUpdateTaskDialog } = props;
 
   return (
     <div id="task-container">
@@ -9,6 +10,11 @@ function TheTask(props) {
       <p>Description: {description}</p>
       <p>Status: {status}</p>
       <p>Date: {date}</p>
+
+      <span>
+        <button onClick={() => handleShowUpdateTaskDialog(props.task)}>Edit</button>
+        <button onClick={() => handleShowDeleteTaskDialog(_id)}>Delete</button>
+      </span>
     </div>
   );
 }
