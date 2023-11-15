@@ -76,7 +76,9 @@ function Tasks() {
   return (
     <>
       <h1>TASKS</h1>
-      <button onClick={handleShowCreateTaskDialog}>Create New Task</button>
+      <button type="button" onClick={handleShowCreateTaskDialog}>
+        Create New Task
+      </button>
       {showCreateTaskDialog ? (
         <CreateTaskDialog
           setVisible={handleShowCreateTaskDialog}

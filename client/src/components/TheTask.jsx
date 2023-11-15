@@ -12,8 +12,15 @@ function TheTask(props) {
       <p>Date: {date}</p>
 
       <span>
-        <button onClick={() => handleShowUpdateTaskDialog(props.task)}>Edit</button>
-        <button onClick={() => handleShowDeleteTaskDialog(_id)}>Delete</button>
+        <button
+          type="button"
+          onClick={() => handleShowUpdateTaskDialog(props.task)}
+        >
+          Edit
+        </button>
+        <button type="button" onClick={() => handleShowDeleteTaskDialog(_id)}>
+          Delete
+        </button>
       </span>
     </div>
   );

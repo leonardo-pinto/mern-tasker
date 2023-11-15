@@ -36,8 +36,12 @@ function DeleteTaskDialog(props) {
         <p>Are you sure you want to delete this task?</p>
 
         <span>
-          <button onClick={setDeleteTaskDialogVisible}>Cancel</button>
-          <button onClick={handleDeleteTask}>Delete</button>
+          <button type="button" onClick={setDeleteTaskDialogVisible}>
+            Cancel
+          </button>
+          <button type="button" onClick={handleDeleteTask}>
+            Delete
+          </button>
         </span>
       </div>
     </div>

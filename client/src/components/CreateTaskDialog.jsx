@@ -116,8 +116,10 @@ function CreateTaskDialog(props) {
         <br />
 
         <span>
-          <button onClick={setVisible}>Cancel</button>
-          <button onClick={handleSubmit} style={{}}>
+          <button type="button" onClick={setVisible}>
+            Cancel
+          </button>
+          <button type="button" onClick={handleSubmit} style={{}}>
             Create
           </button>
         </span>
