@@ -1,6 +1,14 @@
+import { useState } from "react";
 import TheTask from "../components/TheTask";
+import CreateTaskDialog from "../components/CreateTaskDialog";
 
 function Tasks() {
+  const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
+
+  function handleShowCreateTaskDialog() {
+    setShowCreateTaskDialog(!showCreateTaskDialog);
+  }
+
   const tasks = [
     {
       _id: "1",
@@ -28,6 +36,12 @@ function Tasks() {
   return (
     <>
       <h1>TASKS</h1>
+      <button onClick={handleShowCreateTaskDialog}>Create New Task</button>
+      {showCreateTaskDialog ? (
+        <CreateTaskDialog setVisible={handleShowCreateTaskDialog} />
+      ) : (
+        <></>
+      )}
       <div>
         {tasks.map((task) => {
           return <TheTask task={task} key={task._id} />;
