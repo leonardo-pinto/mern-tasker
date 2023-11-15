@@ -3,21 +3,23 @@ import { useState } from "react";
 function RegisterForm() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
-  // add onChange to the email input (e.g., onChange={handleEmail})
-  // create handleEmail function
-  // function handleEmail(e) { setEmail(e.target.value) }
-
   const [password, setPassword] = useState("");
 
   function handleUserName(e) {
     setUserName(e.target.value);
   }
 
-  function handleSubmit() {
-    alert(userName);
-    // call the backend with the form values
+  function handleSubmit(e) {
+    e.preventDefault();
+    alert(`Username: ${userName}, Email: ${email}, Password: ${password}`);
+  }
+  function handlePassword(e) {
+    setPassword(e.target.value);
   }
 
+  function handleEmail(e) {
+    setEmail(e.target.value);
+  }
   return (
     <>
       <form
@@ -28,6 +30,7 @@ function RegisterForm() {
           margin: "auto",
         }}
       >
+        <h1>Register</h1>
         <label htmlFor="username">Username:</label>
         <input
           value={userName}
@@ -48,6 +51,8 @@ function RegisterForm() {
 
         <label htmlFor="email">Email:</label>
         <input
+          value={email}
+          onChange={handleEmail}
           type="email"
           id="email"
           name="email"
@@ -64,6 +69,8 @@ function RegisterForm() {
 
         <label htmlFor="password">Password:</label>
         <input
+          value={password}
+          onChange={handlePassword}
           type="password"
           id="password"
           name="password"
@@ -75,7 +82,6 @@ function RegisterForm() {
             boxSizing: "border-box",
           }}
         />
-
 
         <br />
 
