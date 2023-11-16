@@ -39,8 +39,25 @@ const deleteTask = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedProduct = await Task.findByIdAndUpdate(id, req.body);
+    if (!updatedProduct) {
+      return res.status(400).json({ error: "Invalid task id" });
+    } else {
+      return res.status(200).json(req.body);
+    }
+  } catch (err) {
+    return res.status(400).json({
+      error: JSON.stringify(err),
+    });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   deleteTask,
+  update,
 };
