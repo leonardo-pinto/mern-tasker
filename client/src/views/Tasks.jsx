@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TheTask from "../components/TheTask";
 import CreateTaskDialog from "../components/CreateTaskDialog";
 import UpdateTaskDialog from "../components/UpdateTaskDialog";
 import DeleteTaskDialog from "../components/DeleteTaskDialog";
+import { getAllTasksApi } from "../api/taskApi";
 
 function Tasks() {
   const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
@@ -10,30 +11,20 @@ function Tasks() {
   const [showDeleteTaskDialog, setShowDeleteTaskDialog] = useState(false);
   const [idTaskToDelete, setIdTaskToDelete] = useState();
   const [taskToUpdate, setTaskToUpdate] = useState();
+  const [tasks, setTasks] = useState([]);
 
-  const [tasks, setTasks] = useState([
-    {
-      _id: "1",
-      title: "Study React",
-      description: "See how to build a component",
-      status: "Pending",
-      date: "2023-11-14",
-    },
-    {
-      _id: "2",
-      title: "Study Java",
-      description: "JavaFX controls",
-      status: "Pending",
-      date: "2023-11-18",
-    },
-    {
-      _id: "3",
-      title: "Groceries",
-      description: "Chicken, milk and bread",
-      status: "Pending",
-      date: "2023-11-24",
-    },
-  ]);
+  async function getTasks() {
+    try {
+      const response = await getAllTasksApi();
+      setTasks(response);
+    } catch (error) {
+      console.error(`Error while retrieving tasks: ${JSON.stringify(error)}`);
+    }
+  }
+
+  useEffect(() => {
+    getTasks();
+  }, []);
 
   function handleShowCreateTaskDialog() {
     setShowCreateTaskDialog(!showCreateTaskDialog);
