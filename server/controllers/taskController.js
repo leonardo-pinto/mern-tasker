@@ -15,7 +15,7 @@ const create = async (req, res) => {
 const getAll = async (_req, res) => {
   try {
     const tasks = await Task.find();
-    return res.status(201).json(tasks);
+    return res.status(200).json(tasks);
   } catch (err) {
     return res.status(400).json({
       error: JSON.stringify(err),
