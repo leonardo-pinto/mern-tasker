@@ -3,7 +3,12 @@ import TheTask from "../components/TheTask";
 import CreateTaskDialog from "../components/CreateTaskDialog";
 import UpdateTaskDialog from "../components/UpdateTaskDialog";
 import DeleteTaskDialog from "../components/DeleteTaskDialog";
-import { getAllTasksApi, createTaskApi } from "../api/taskApi";
+import {
+  getAllTasksApi,
+  createTaskApi,
+  deleteTaskApi,
+  updateTaskApi,
+} from "../api/taskApi";
 
 function Tasks() {
   const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
@@ -31,6 +36,31 @@ function Tasks() {
     }
   }
 
+  async function deleteTask(_id) {
+    try {
+      await deleteTaskApi(_id);
+      const filteredArray = tasks.filter((task) => task._id != _id);
+      setTasks(filteredArray);
+    } catch (error) {
+      console.error(`Error while deleting task: ${JSON.stringify(error)}`);
+    }
+  }
+
+  async function updateTask(updatedTask) {
+    try {
+      const response = await updateTaskApi(taskToUpdate._id, updatedTask);
+      const updatedArray = tasks.map((task) => {
+        if (task._id === response._id) {
+          task = response;
+        }
+        return task;
+      });
+      setTasks(updatedArray);
+    } catch (error) {
+      console.error(`Error while updating task: ${JSON.stringify(error)}`);
+    }
+  }
+
   useEffect(() => {
     getTasks();
   }, []);
@@ -51,21 +81,6 @@ function Tasks() {
       setIdTaskToDelete(null);
     }
     setShowDeleteTaskDialog(!showDeleteTaskDialog);
-  }
-
-  function deleteTask(_id) {
-    const filteredArray = tasks.filter((task) => task._id != _id);
-    setTasks(filteredArray);
-  }
-
-  function updateTask(updatedTask) {
-    const updatedArray = tasks.map((task) => {
-      if (task._id === updatedTask._id) {
-        task = updatedTask;
-      }
-      return task;
-    });
-    setTasks(updatedArray);
   }
 
   return (
