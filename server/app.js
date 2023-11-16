@@ -1,12 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-// const taskController = require("./routes/taskRoutes");
-// const authController = require("./routes/authRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-// app.use("/api/auth", authController);
-// app.use("/api/task", taskController);
+app.use("/api/task", taskRoutes);
 
 module.exports = app;
