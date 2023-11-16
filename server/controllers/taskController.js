@@ -46,7 +46,7 @@ const update = async (req, res) => {
     if (!updatedProduct) {
       return res.status(400).json({ error: "Invalid task id" });
     } else {
-      return res.status(200).json(req.body);
+      return res.status(200).json({ ...req.body, _id: id });
     }
   } catch (err) {
     return res.status(400).json({

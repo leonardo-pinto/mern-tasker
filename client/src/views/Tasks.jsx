@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TheTask from "../components/TheTask";
 import CreateTaskDialog from "../components/CreateTaskDialog";
 import UpdateTaskDialog from "../components/UpdateTaskDialog";
 import DeleteTaskDialog from "../components/DeleteTaskDialog";
+import {
+  getAllTasksApi,
+  createTaskApi,
+  deleteTaskApi,
+  updateTaskApi,
+} from "../api/taskApi";
 
 function Tasks() {
   const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
@@ -10,30 +16,54 @@ function Tasks() {
   const [showDeleteTaskDialog, setShowDeleteTaskDialog] = useState(false);
   const [idTaskToDelete, setIdTaskToDelete] = useState();
   const [taskToUpdate, setTaskToUpdate] = useState();
+  const [tasks, setTasks] = useState([]);
 
-  const [tasks, setTasks] = useState([
-    {
-      _id: "1",
-      title: "Study React",
-      description: "See how to build a component",
-      status: "Pending",
-      date: "2023-11-14",
-    },
-    {
-      _id: "2",
-      title: "Study Java",
-      description: "JavaFX controls",
-      status: "Pending",
-      date: "2023-11-18",
-    },
-    {
-      _id: "3",
-      title: "Groceries",
-      description: "Chicken, milk and bread",
-      status: "Pending",
-      date: "2023-11-24",
-    },
-  ]);
+  async function getTasks() {
+    try {
+      const response = await getAllTasksApi();
+      setTasks(response);
+    } catch (error) {
+      console.error(`Error while retrieving tasks: ${JSON.stringify(error)}`);
+    }
+  }
+
+  async function createNewTask(task) {
+    try {
+      const newTask = await createTaskApi(task);
+      setTasks([...tasks, newTask]);
+    } catch (error) {
+      console.error(`Error while creating task: ${JSON.stringify(error)}`);
+    }
+  }
+
+  async function deleteTask(_id) {
+    try {
+      await deleteTaskApi(_id);
+      const filteredArray = tasks.filter((task) => task._id != _id);
+      setTasks(filteredArray);
+    } catch (error) {
+      console.error(`Error while deleting task: ${JSON.stringify(error)}`);
+    }
+  }
+
+  async function updateTask(updatedTask) {
+    try {
+      const response = await updateTaskApi(taskToUpdate._id, updatedTask);
+      const updatedArray = tasks.map((task) => {
+        if (task._id === response._id) {
+          task = response;
+        }
+        return task;
+      });
+      setTasks(updatedArray);
+    } catch (error) {
+      console.error(`Error while updating task: ${JSON.stringify(error)}`);
+    }
+  }
+
+  useEffect(() => {
+    getTasks();
+  }, []);
 
   function handleShowCreateTaskDialog() {
     setShowCreateTaskDialog(!showCreateTaskDialog);
@@ -51,26 +81,6 @@ function Tasks() {
       setIdTaskToDelete(null);
     }
     setShowDeleteTaskDialog(!showDeleteTaskDialog);
-  }
-
-  function createNewTask(task) {
-    task._id = new Date();
-    setTasks([...tasks, task]);
-  }
-
-  function deleteTask(_id) {
-    const filteredArray = tasks.filter((task) => task._id != _id);
-    setTasks(filteredArray);
-  }
-
-  function updateTask(updatedTask) {
-    const updatedArray = tasks.map((task) => {
-      if (task._id === updatedTask._id) {
-        task = updatedTask;
-      }
-      return task;
-    });
-    setTasks(updatedArray);
   }
 
   return (
