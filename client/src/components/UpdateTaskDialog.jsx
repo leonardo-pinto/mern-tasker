@@ -31,7 +31,6 @@ function UpdateTaskDialog(props) {
   function handleUpdateTask(e) {
     e.preventDefault();
     const updatedTask = {
-      _id,
       title: updatedTitle,
       description: updatedDescription,
       date: updatedDate,
