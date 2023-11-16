@@ -3,7 +3,7 @@ import TheTask from "../components/TheTask";
 import CreateTaskDialog from "../components/CreateTaskDialog";
 import UpdateTaskDialog from "../components/UpdateTaskDialog";
 import DeleteTaskDialog from "../components/DeleteTaskDialog";
-import { getAllTasksApi } from "../api/taskApi";
+import { getAllTasksApi, createTaskApi } from "../api/taskApi";
 
 function Tasks() {
   const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
@@ -19,6 +19,15 @@ function Tasks() {
       setTasks(response);
     } catch (error) {
       console.error(`Error while retrieving tasks: ${JSON.stringify(error)}`);
+    }
+  }
+
+  async function createNewTask(task) {
+    try {
+      const newTask = await createTaskApi(task);
+      setTasks([...tasks, newTask]);
+    } catch (error) {
+      console.error(`Error while creating task: ${JSON.stringify(error)}`);
     }
   }
 
@@ -42,11 +51,6 @@ function Tasks() {
       setIdTaskToDelete(null);
     }
     setShowDeleteTaskDialog(!showDeleteTaskDialog);
-  }
-
-  function createNewTask(task) {
-    task._id = new Date();
-    setTasks([...tasks, task]);
   }
 
   function deleteTask(_id) {
