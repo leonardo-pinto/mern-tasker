@@ -1,7 +1,4 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
-const navigate = useNavigate();
 
 const httpClient = axios.create({
   baseURL: "http://localhost:3000/api",
@@ -26,7 +23,7 @@ const errorInterceptor = (error) => {
 
   if (error?.response?.status === 401) {
     clearLocalStorage();
-    navigate("/login", { replace: true });
+    window.history.push("/login");
   }
 
   if (error?.response?.status === 500) {
