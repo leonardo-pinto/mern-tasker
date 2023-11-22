@@ -8,4 +8,6 @@ function clearLocalStorage() {
   localStorage.clear();
 }
 
-export { setLocalStorage, clearLocalStorage };
+const isAuthenticated = () => !!localStorage.getItem("accessToken");
+
+export { setLocalStorage, clearLocalStorage, isAuthenticated };
