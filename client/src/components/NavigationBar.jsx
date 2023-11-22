@@ -1,7 +1,15 @@
 import mernLogo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { clearLocalStorage } from "../utils";
 
 function NavigationBar() {
+  const navigate = useNavigate();
+
+  function logout() {
+    clearLocalStorage();
+    navigate("/login", { replace: true });
+  }
+
   return (
     <>
       <nav>
@@ -16,7 +24,9 @@ function NavigationBar() {
           <li>
             <Link to="/register">Register</Link>
           </li>
-          <li>Logout</li>
+          <li>
+            <button onClick={logout}>Logout</button>
+          </li>
         </ul>
       </nav>
     </>
