@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { register } from "../api/authApi";
 import { setLocalStorage } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   function handleUserName(e) {
     setUserName(e.target.value);
@@ -21,6 +23,7 @@ function RegisterForm() {
         password,
       });
 
+      navigate("/", { replace: true });
       setLocalStorage(result);
     } catch (error) {
       console.error(`Error while register user: ${JSON.stringify(error)}`);

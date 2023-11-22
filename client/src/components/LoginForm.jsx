@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { login } from "../api/authApi";
 import { setLocalStorage } from "../utils";
+import { useNavigate } from "react-router-dom";
 function LoginForm() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   function handleUserName(e) {
     const { value } = e.target;
@@ -23,6 +25,7 @@ function LoginForm() {
         password,
       });
 
+      navigate("/", { replace: true });
       setLocalStorage(result);
     } catch (error) {
       console.error(`Error while login user: ${JSON.stringify(error)}`);
