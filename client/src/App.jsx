@@ -3,6 +3,7 @@ import NavigationBar from "./components/NavigationBar";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import Tasks from "./views/Tasks";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -10,7 +11,15 @@ function App() {
       <BrowserRouter>
         <NavigationBar />
         <Routes>
-          <Route exact path="/" element={<Tasks />} />
+          <Route
+            exact
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Tasks />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
