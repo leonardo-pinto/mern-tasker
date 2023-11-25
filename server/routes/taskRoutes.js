@@ -6,11 +6,12 @@ const {
   deleteTask,
   update,
 } = require("../controllers/taskController");
+const { validateToken } = require("../middlewares/auth");
 
 router
-  .post("/", create)
-  .get("/", getAll)
-  .delete("/:id", deleteTask)
-  .put("/:id", update);
+  .post("/", validateToken, create)
+  .get("/", validateToken, getAll)
+  .delete("/:id", validateToken, deleteTask)
+  .put("/:id", validateToken, update);
 
 module.exports = router;
