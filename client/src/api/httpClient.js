@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearLocalStorage } from "../utils/index";
 
 const httpClient = axios.create({
   baseURL: "http://localhost:3000/api",
@@ -23,7 +24,7 @@ const errorInterceptor = (error) => {
 
   if (error?.response?.status === 401) {
     clearLocalStorage();
-    window.history.push("/login");
+    // window.history.push("/login");
   }
 
   if (error?.response?.status === 500) {
