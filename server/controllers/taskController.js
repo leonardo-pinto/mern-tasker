@@ -12,9 +12,9 @@ const create = async (req, res) => {
   }
 };
 
-const getAll = async (_req, res) => {
+const getAll = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find({ userId: req.body.userId });
     return res.status(200).json(tasks);
   } catch (err) {
     return res.status(400).json({
