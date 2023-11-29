@@ -9,6 +9,7 @@ import {
   deleteTaskApi,
   updateTaskApi,
 } from "../api/taskApi";
+import { toast, ToastContainer } from "react-toastify";
 
 function Tasks() {
   const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
@@ -31,6 +32,10 @@ function Tasks() {
     try {
       const newTask = await createTaskApi(task);
       setTasks([...tasks, newTask]);
+      toast.success("Task Created!", {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
     } catch (error) {
       console.error(`Error while creating task: ${JSON.stringify(error)}`);
     }
@@ -41,6 +46,10 @@ function Tasks() {
       await deleteTaskApi(_id);
       const filteredArray = tasks.filter((task) => task._id != _id);
       setTasks(filteredArray);
+      toast.success("Task Deleted!", {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
     } catch (error) {
       console.error(`Error while deleting task: ${JSON.stringify(error)}`);
     }
@@ -56,6 +65,10 @@ function Tasks() {
         return task;
       });
       setTasks(updatedArray);
+      toast.success("Task Updated!", {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
     } catch (error) {
       console.error(`Error while updating task: ${JSON.stringify(error)}`);
     }
@@ -85,6 +98,7 @@ function Tasks() {
 
   return (
     <>
+      <ToastContainer />
       <h1>TASKS</h1>
       <button type="button" onClick={handleShowCreateTaskDialog}>
         Create New Task
