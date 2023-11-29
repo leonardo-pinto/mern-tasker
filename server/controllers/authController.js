@@ -37,7 +37,6 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    console.log(req.body);
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
       return res.status(401).json({ error: "User not found" });
