@@ -1,10 +1,9 @@
 function DeleteTaskDialog(props) {
-  const { setDeleteTaskDialogVisible, deleteTask, idTaskToDelete } = props;
+  const { toggleDialog, deleteTask, idTaskToDelete } = props;
 
   function handleDeleteTask() {
-    // call api
     deleteTask(idTaskToDelete);
-    setDeleteTaskDialogVisible();
+    toggleDialog("deleteDialog");
   }
 
   return (
@@ -36,7 +35,7 @@ function DeleteTaskDialog(props) {
         <p>Are you sure you want to delete this task?</p>
 
         <span>
-          <button type="button" onClick={setDeleteTaskDialogVisible}>
+          <button type="button" onClick={() => toggleDialog("deleteDialog")}>
             Cancel
           </button>
           <button type="button" onClick={handleDeleteTask}>

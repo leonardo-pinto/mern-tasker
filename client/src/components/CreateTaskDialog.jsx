@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function CreateTaskDialog(props) {
-  const { setVisible, createNewTask } = props;
+  const { toggleDialog, createNewTask } = props;
 
   const [values, setValues] = useState({
     title: "",
@@ -18,7 +18,7 @@ function CreateTaskDialog(props) {
   function handleSubmit(e) {
     e.preventDefault();
     handleCreateNewTask();
-    setVisible();
+    toggleDialog("createDialog");
   }
 
   function handleCreateNewTask() {
@@ -106,7 +106,7 @@ function CreateTaskDialog(props) {
         <br />
 
         <span>
-          <button type="button" onClick={setVisible}>
+          <button type="button" onClick={() => toggleDialog("createDialog")}>
             Cancel
           </button>
           <button type="button" onClick={handleSubmit} style={{}}>

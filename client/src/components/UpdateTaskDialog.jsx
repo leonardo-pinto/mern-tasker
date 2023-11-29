@@ -2,9 +2,9 @@ import { useState } from "react";
 
 function UpdateTaskDialog(props) {
   const {
-    setUpdateTaskDialogVisible,
+    toggleDialog,
     updateTask,
-    task: { _id, title, description, date, status },
+    task: { title, description, date, status },
   } = props;
 
   const [updatedTitle, setUpdatedTitle] = useState(title);
@@ -37,7 +37,7 @@ function UpdateTaskDialog(props) {
       status: updatedStatus,
     };
     updateTask(updatedTask);
-    setUpdateTaskDialogVisible();
+    toggleDialog("updateDialog");
   }
 
   return (
@@ -139,7 +139,7 @@ function UpdateTaskDialog(props) {
         <br />
 
         <span>
-          <button type="button" onClick={setUpdateTaskDialogVisible}>
+          <button type="button" onClick={() => toggleDialog("updateDialog")}>
             Cancel
           </button>
           <button type="button" onClick={handleUpdateTask}>
