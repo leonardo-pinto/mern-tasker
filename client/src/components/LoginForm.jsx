@@ -2,24 +2,15 @@ import { useState } from "react";
 import { login } from "../api/authApi";
 import { setLocalStorage } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
 function LoginForm() {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
-  function handleUserName(e) {
-    const { value } = e.target;
-    setUserName(value);
-  }
-
-  function handlePassword(e) {
-    setPassword(e.target.value);
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-
+  async function handleRegistration(data) {
     try {
+      const { userName, password } = data;
       const result = await login({
         username: userName,
         password,
@@ -31,9 +22,11 @@ function LoginForm() {
       console.error(`Error while login user: ${JSON.stringify(error)}`);
     }
   }
+
   return (
     <>
       <form
+        onSubmit={handleSubmit(handleRegistration)}
         style={{
           border: "1px solid #ccc",
           padding: "20px",
@@ -43,13 +36,11 @@ function LoginForm() {
       >
         <h1>Login</h1>
         <label htmlFor="username">Username:</label>
+
         <input
-          value={userName}
-          onChange={handleUserName}
           type="text"
-          id="username"
           name="username"
-          required
+          {...register("userName")}
           style={{
             width: "100%",
             padding: "8px",
@@ -57,17 +48,13 @@ function LoginForm() {
             boxSizing: "border-box",
           }}
         />
-
         <br />
 
         <label htmlFor="password">Password:</label>
         <input
-          value={password}
-          onChange={handlePassword}
-          type="password"
-          id="password"
+          type="text"
           name="password"
-          required
+          {...register("password")}
           style={{
             width: "100%",
             padding: "8px",
@@ -78,10 +65,7 @@ function LoginForm() {
 
         <br />
 
-        <input
-          onClick={handleSubmit}
-          type="submit"
-          value="Login"
+        <button
           style={{
             width: "100%",
             backgroundColor: "#4CAF50",
@@ -91,7 +75,9 @@ function LoginForm() {
             borderRadius: "5px",
             cursor: "pointer",
           }}
-        />
+        >
+          Login
+        </button>
       </form>
     </>
   );
