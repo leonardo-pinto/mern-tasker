@@ -46,3 +46,6 @@ nav ul li {
   margin-top: 10px;
   width: 50%;
 }
+.error-message {
+  color: red;
+}
