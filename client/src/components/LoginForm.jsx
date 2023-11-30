@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 function LoginForm() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
   const navigate = useNavigate();
 
   async function handleRegistration(data) {
@@ -22,6 +26,23 @@ function LoginForm() {
       console.error(`Error while login user: ${JSON.stringify(error)}`);
     }
   }
+
+  const loginOptions = {
+    userName: {
+      required: "User name is required",
+      minLength: {
+        value: 6,
+        message: "User name must have at least 6 characters",
+      },
+    },
+    password: {
+      required: "Password is required",
+      minLength: {
+        value: 6,
+        message: "Password must have at least 6 characters",
+      },
+    },
+  };
 
   return (
     <>
@@ -40,21 +61,23 @@ function LoginForm() {
         <input
           type="text"
           name="username"
-          {...register("userName")}
+          {...register("userName", loginOptions.userName)}
           style={{
             width: "100%",
             padding: "8px",
-            margin: "8px 0",
+            margin: "1px 0",
             boxSizing: "border-box",
           }}
         />
-        <br />
+        <p className="error-message">
+          {errors?.userName && errors.userName.message}
+        </p>
 
         <label htmlFor="password">Password:</label>
         <input
           type="text"
           name="password"
-          {...register("password")}
+          {...register("password", loginOptions.password)}
           style={{
             width: "100%",
             padding: "8px",
@@ -62,8 +85,7 @@ function LoginForm() {
             boxSizing: "border-box",
           }}
         />
-
-        <br />
+        <p>{errors?.password && errors.password.message}</p>
 
         <button
           style={{
