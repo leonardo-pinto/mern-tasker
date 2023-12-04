@@ -46,15 +46,7 @@ function LoginForm() {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(handleRegistration)}
-        style={{
-          border: "1px solid #ccc",
-          padding: "20px",
-          maxWidth: "300px",
-          margin: "auto",
-        }}
-      >
+      <form onSubmit={handleSubmit(handleRegistration)}>
         <h1>Login</h1>
         <label htmlFor="username">Username:</label>
 
@@ -62,47 +54,20 @@ function LoginForm() {
           type="text"
           name="username"
           {...register("userName", loginOptions.userName)}
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "1px 0",
-            boxSizing: "border-box",
-          }}
         />
-        <p className="error-message">
-          {errors?.userName && errors.userName.message}
-        </p>
+        <p>{errors?.userName && errors.userName.message}</p>
 
         <label htmlFor="password">Password:</label>
         <input
           type="text"
           name="password"
           {...register("password", loginOptions.password)}
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
         <p>{errors?.password && errors.password.message}</p>
 
-        <button
-          style={{
-            width: "100%",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            padding: "10px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          Login
-        </button>
+        <button>Login</button>
       </form>
     </>
   );
 }
-
 export default LoginForm;
