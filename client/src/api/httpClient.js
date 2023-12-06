@@ -24,12 +24,12 @@ const errorInterceptor = (error) => {
 
   if (error?.response?.status === 401) {
     clearLocalStorage();
-    // window.history.push("/login");
   }
 
   if (error?.response?.status === 500) {
     console.error("An unexpected server error occurred!");
   }
+
   return Promise.reject(error);
 };
 

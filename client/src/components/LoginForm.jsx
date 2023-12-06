@@ -10,6 +10,8 @@ function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
+
+  const [errorApi, setErrorApi] = useState([]);
   const navigate = useNavigate();
 
   async function handleRegistration(data) {
@@ -23,7 +25,8 @@ function LoginForm() {
       navigate("/", { replace: true });
       setLocalStorage(result);
     } catch (error) {
-      console.error(`Error while login user: ${JSON.stringify(error)}`);
+      const errorMessage = error.response?.data?.error;
+      setErrorApi(errorMessage.split(","));
     }
   }
 
@@ -65,6 +68,7 @@ function LoginForm() {
         />
         <p>{errors?.password && errors.password.message}</p>
 
+        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
         <button>Login</button>
       </form>
     </>

@@ -10,19 +10,22 @@ function CreateTaskDialog(props) {
     status: "Pending",
   });
 
+  const [errorApi, setErrorApi] = useState([]);
+
   function handleValues(e) {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleCreateNewTask();
-    setVisible();
-  }
-
-  function handleCreateNewTask() {
-    createNewTask(values);
+  async function handleSubmit(e) {
+    try {
+      e.preventDefault();
+      await createNewTask(values);
+      setVisible();
+    } catch (error) {
+      const errorMessage = error.response?.data?.error;
+      setErrorApi(errorMessage.split(","));
+    }
   }
 
   return (
@@ -55,6 +58,8 @@ function CreateTaskDialog(props) {
           id="date"
           name="date"
         />
+
+        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
 
         <span className="flex">
           <button type="button" onClick={setVisible}>
