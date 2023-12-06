@@ -40,14 +40,7 @@ function RegisterForm() {
   }
   return (
     <>
-      <form
-        style={{
-          border: "1px solid #ccc",
-          padding: "20px",
-          maxWidth: "300px",
-          margin: "auto",
-        }}
-      >
+      <form onClick={handleSubmit}>
         <h1>Register</h1>
         <label htmlFor="username">Username:</label>
         <input
@@ -56,17 +49,7 @@ function RegisterForm() {
           type="text"
           id="username"
           name="username"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
-
-        <br />
-
         <label htmlFor="email">Email:</label>
         <input
           value={email}
@@ -74,17 +57,7 @@ function RegisterForm() {
           type="email"
           id="email"
           name="email"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
-
-        <br />
-
         <label htmlFor="password">Password:</label>
         <input
           value={password}
@@ -92,32 +65,12 @@ function RegisterForm() {
           type="password"
           id="password"
           name="password"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
-
-        <br />
         {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
 
-        <input
-          type="submit"
-          value="Register"
-          onClick={handleSubmit}
-          style={{
-            width: "100%",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            padding: "10px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        />
+        <button type="button" onClick={handleSubmit}>
+          Register
+        </button>
       </form>
     </>
   );
