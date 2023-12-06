@@ -42,7 +42,7 @@ const login = async (req, res) => {
       return res.status(401).json({ error: "User not found" });
     }
     if (!user.authenticate(req.body.password)) {
-      return res.status("401").send({ error: "Invalid password" });
+      return res.status(401).send({ error: "Invalid password" });
     }
 
     const token = jwt.sign({ _id: user._id }, config.jwtSecret, {
