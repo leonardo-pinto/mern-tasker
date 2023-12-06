@@ -32,7 +32,7 @@ function Tasks() {
       const newTask = await createTaskApi(task);
       setTasks([...tasks, newTask]);
     } catch (error) {
-      console.error(`Error while creating task: ${JSON.stringify(error)}`);
+      throw error;
     }
   }
 
@@ -42,7 +42,7 @@ function Tasks() {
       const filteredArray = tasks.filter((task) => task._id != _id);
       setTasks(filteredArray);
     } catch (error) {
-      console.error(`Error while deleting task: ${JSON.stringify(error)}`);
+      throw error;
     }
   }
 
@@ -57,7 +57,7 @@ function Tasks() {
       });
       setTasks(updatedArray);
     } catch (error) {
-      console.error(`Error while updating task: ${JSON.stringify(error)}`);
+      throw error;
     }
   }
 
