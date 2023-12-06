@@ -86,7 +86,11 @@ function Tasks() {
   return (
     <>
       <h1>TASKS</h1>
-      <button type="button" onClick={handleShowCreateTaskDialog}>
+      <button
+        className="w-50"
+        type="button"
+        onClick={handleShowCreateTaskDialog}
+      >
         Create New Task
       </button>
       {showCreateTaskDialog ? (

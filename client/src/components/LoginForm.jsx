@@ -59,7 +59,7 @@ function LoginForm() {
 
         <label htmlFor="password">Password:</label>
         <input
-          type="text"
+          type="password"
           name="password"
           {...register("password", loginOptions.password)}
         />

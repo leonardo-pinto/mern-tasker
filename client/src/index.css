@@ -1,5 +1,4 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   text-align: center;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -10,11 +9,18 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #f0f0f0;
 }
 
 a {
   text-decoration: none;
-  color: inherit;
+  color: #3498db;
+  font-weight: 600;
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #2c3e50;
 }
 
 nav {
@@ -23,9 +29,14 @@ nav {
   align-items: center;
   height: 20vh;
   width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for a lifted appearance */
 }
 
 nav ul {
+  display: flex;
+}
+
+.flex {
   display: flex;
 }
 
@@ -36,16 +47,148 @@ nav ul li {
 
 #logo {
   height: 80%;
+  margin-left: 10px;
 }
 
 #task-container {
-  border: 1px solid black;
+  border: 1px solid rgb(231, 225, 225);
   display: flex;
-  flex-direction: column;
   margin: 0 auto;
   margin-top: 10px;
   width: 50%;
 }
-.error-message {
-  color: red;
+
+p {
+  margin:auto;
+  font-weight: 500;
 }
+
+form {
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px hsla(0, 0%, 0%, 0.1);
+  box-sizing: border-box;
+  padding: 40px;
+  text-align: center;
+  margin: 25px;
+  display: inline-block;
+  max-width: 450px;
+  width: 100%;
+}
+.fix-pos{
+  position: fixed;
+}
+
+button {
+  margin-top: 10px;
+  background-color: #3498db;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2c3e50;
+}
+
+form h1 {
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  color: #555;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+input[type="submit"] {
+  width: 100%;
+  margin-top: 20px;
+  background-color: #3498db;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #2c3e50;
+}
+
+
+  .dialog{
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.4);     
+  }
+  .dialog-form{
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      max-width: 300px;
+      max-height: fit-content;
+      margin: auto;
+  }
+
+  #task-container span{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    padding: 2px;
+    margin-right: 5px;
+  }
+
+  #task-container div{
+    width: 80%;
+    margin-top: 5px;
+  }
+  span button{
+    margin: 0 auto;
+  }

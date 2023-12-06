@@ -26,30 +26,8 @@ function CreateTaskDialog(props) {
   }
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        display: "flex",
-        direction: "row",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100%",
-        zIndex: "100",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.4)",
-      }}
-    >
-      <form
-        style={{
-          backgroundColor: "white",
-          border: "1px solid #ccc",
-          padding: "20px",
-          maxWidth: "300px",
-          margin: "auto",
-        }}
-      >
+    <div className="dialog">
+      <form className="dialog-form">
         <h1>Create New Task</h1>
         <label htmlFor="title">Title:</label>
         <input
@@ -58,16 +36,7 @@ function CreateTaskDialog(props) {
           type="text"
           id="title"
           name="title"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
-
-        <br />
 
         <label htmlFor="description">Description:</label>
         <input
@@ -76,16 +45,7 @@ function CreateTaskDialog(props) {
           type="text"
           id="description"
           name="description"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
-
-        <br />
 
         <label htmlFor="date">Date:</label>
         <input
@@ -94,18 +54,9 @@ function CreateTaskDialog(props) {
           type="date"
           id="date"
           name="date"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
 
-        <br />
-
-        <span>
+        <span className="flex">
           <button type="button" onClick={setVisible}>
             Cancel
           </button>

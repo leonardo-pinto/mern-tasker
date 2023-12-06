@@ -6,11 +6,12 @@ function TheTask(props) {
 
   return (
     <div id="task-container">
+      <div>
       <p>Title: {title}</p>
       <p>Description: {description}</p>
       <p>Status: {status}</p>
       <p>Date: {date}</p>
-
+      </div>
       <span>
         <button
           type="button"
