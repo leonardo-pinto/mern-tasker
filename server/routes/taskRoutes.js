@@ -6,8 +6,7 @@ const {
   deleteTask,
   update,
 } = require("../controllers/taskController");
-const { validateToken } = require("../middlewares/auth");
-const { validateTask } = require("../middlewares/tasks");
+const { validateToken, validateTask } = require("../middlewares/");
 router
   .post("/", validateToken, validateTask, create)
   .get("/", validateToken, getAll)
