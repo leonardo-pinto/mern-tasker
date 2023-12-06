@@ -7,6 +7,7 @@ function RegisterForm() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorApi, setErrorApi] = useState([]);
   const navigate = useNavigate();
 
   function handleUserName(e) {
@@ -26,7 +27,8 @@ function RegisterForm() {
       navigate("/", { replace: true });
       setLocalStorage(result);
     } catch (error) {
-      console.error(`Error while register user: ${JSON.stringify(error)}`);
+      const errorMessage = error.response?.data?.error;
+      setErrorApi(errorMessage.split(","));
     }
   }
   function handlePassword(e) {
@@ -100,6 +102,7 @@ function RegisterForm() {
         />
 
         <br />
+        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
 
         <input
           type="submit"
