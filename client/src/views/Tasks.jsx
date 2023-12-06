@@ -9,11 +9,14 @@ import {
   deleteTaskApi,
   updateTaskApi,
 } from "../api/taskApi";
+import { toast, ToastContainer } from "react-toastify";
 
 function Tasks() {
-  const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
-  const [showUpdateTaskDialog, setShowUpdateTaskDialog] = useState(false);
-  const [showDeleteTaskDialog, setShowDeleteTaskDialog] = useState(false);
+  const [showTaskDialog, setShowTaskDialog] = useState({
+    createDialog: false,
+    updateDialog: false,
+    deleteDialog: false,
+  });
   const [idTaskToDelete, setIdTaskToDelete] = useState();
   const [taskToUpdate, setTaskToUpdate] = useState();
   const [tasks, setTasks] = useState([]);
@@ -31,6 +34,10 @@ function Tasks() {
     try {
       const newTask = await createTaskApi(task);
       setTasks([...tasks, newTask]);
+      toast.success("Task Created!", {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
     } catch (error) {
       throw error;
     }
@@ -41,6 +48,10 @@ function Tasks() {
       await deleteTaskApi(_id);
       const filteredArray = tasks.filter((task) => task._id != _id);
       setTasks(filteredArray);
+      toast.success("Task Deleted!", {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
     } catch (error) {
       throw error;
     }
@@ -56,6 +67,10 @@ function Tasks() {
         return task;
       });
       setTasks(updatedArray);
+      toast.success("Task Updated!", {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
     } catch (error) {
       throw error;
     }
@@ -65,56 +80,51 @@ function Tasks() {
     getTasks();
   }, []);
 
-  function handleShowCreateTaskDialog() {
-    setShowCreateTaskDialog(!showCreateTaskDialog);
-  }
-
-  function handleShowUpdateTaskDialog(task) {
-    setTaskToUpdate(task);
-    setShowUpdateTaskDialog(!showUpdateTaskDialog);
-  }
-
-  function handleShowDeleteTaskDialog(_id) {
-    if (!showDeleteTaskDialog) {
-      setIdTaskToDelete(_id);
-    } else {
-      setIdTaskToDelete(null);
+  function handleShowTaskDialog(dialogType, value) {
+    if (dialogType == "updateDialog") {
+      setTaskToUpdate(value);
+    } else if (dialogType == "deleteDialog") {
+      setIdTaskToDelete(value);
     }
-    setShowDeleteTaskDialog(!showDeleteTaskDialog);
+
+    setShowTaskDialog({
+      ...showTaskDialog,
+      [dialogType]: !showTaskDialog[dialogType],
+    });
   }
 
   return (
     <>
+      <ToastContainer />
       <h1>TASKS</h1>
       <button
-        className="w-50"
         type="button"
-        onClick={handleShowCreateTaskDialog}
+        onClick={() => handleShowTaskDialog("createDialog")}
       >
         Create New Task
       </button>
-      {showCreateTaskDialog ? (
+      {showTaskDialog.createDialog ? (
         <CreateTaskDialog
-          setVisible={handleShowCreateTaskDialog}
+          toggleDialog={handleShowTaskDialog}
           createNewTask={createNewTask}
         />
       ) : (
         <></>
       )}
-      {showUpdateTaskDialog ? (
+      {showTaskDialog.updateDialog ? (
         <UpdateTaskDialog
-          setUpdateTaskDialogVisible={handleShowUpdateTaskDialog}
+          toggleDialog={handleShowTaskDialog}
           task={taskToUpdate}
           updateTask={updateTask}
         />
       ) : (
         <></>
       )}
-      {showDeleteTaskDialog ? (
+      {showTaskDialog.deleteDialog ? (
         <DeleteTaskDialog
           deleteTask={deleteTask}
           idTaskToDelete={idTaskToDelete}
-          setDeleteTaskDialogVisible={handleShowDeleteTaskDialog}
+          toggleDialog={handleShowTaskDialog}
         />
       ) : (
         <></>
@@ -125,8 +135,8 @@ function Tasks() {
             <TheTask
               task={task}
               key={task._id}
-              handleShowUpdateTaskDialog={handleShowUpdateTaskDialog}
-              handleShowDeleteTaskDialog={handleShowDeleteTaskDialog}
+              handleShowUpdateTaskDialog={handleShowTaskDialog}
+              handleShowDeleteTaskDialog={handleShowTaskDialog}
             />
           );
         })}

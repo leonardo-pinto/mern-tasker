@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 function DeleteTaskDialog(props) {
-  const { setDeleteTaskDialogVisible, deleteTask, idTaskToDelete } = props;
+  const { deleteTask, idTaskToDelete, toggleDialog } = props;
   const [errorApi, setErrorApi] = useState([]);
 
   async function handleDeleteTask() {
     try {
       await deleteTask(idTaskToDelete);
-      setDeleteTaskDialogVisible();
+      toggleDialog("deleteDialog");
     } catch (error) {
       const errorMessage = error.response?.data?.error;
       setErrorApi(errorMessage.split(","));
@@ -21,7 +21,7 @@ function DeleteTaskDialog(props) {
         <p>Are you sure you want to delete this task?</p>
         {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
         <span>
-          <button type="button" onClick={setDeleteTaskDialogVisible}>
+          <button type="button" onClick={() => toggleDialog("deleteDialog")}>
             Cancel
           </button>
           <button type="button" onClick={handleDeleteTask}>

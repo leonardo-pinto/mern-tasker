@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function CreateTaskDialog(props) {
-  const { setVisible, createNewTask } = props;
+  const { toggleDialog, createNewTask } = props;
 
   const [values, setValues] = useState({
     title: "",
@@ -21,6 +21,7 @@ function CreateTaskDialog(props) {
     try {
       e.preventDefault();
       await createNewTask(values);
+      toggleDialog("createDialog");
       setVisible();
     } catch (error) {
       const errorMessage = error.response?.data?.error;
@@ -62,7 +63,7 @@ function CreateTaskDialog(props) {
         {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
 
         <span className="flex">
-          <button type="button" onClick={setVisible}>
+          <button type="button" onClick={() => toggleDialog("createDialog")}>
             Cancel
           </button>
           <button type="button" onClick={handleSubmit} style={{}}>

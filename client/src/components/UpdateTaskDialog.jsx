@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function UpdateTaskDialog(props) {
   const {
-    setUpdateTaskDialogVisible,
+    toggleDialog,
     updateTask,
     task: { title, description, date, status },
   } = props;
@@ -39,6 +39,7 @@ function UpdateTaskDialog(props) {
         status: updatedStatus,
       };
       await updateTask(updatedTask);
+      toggleDialog("updateDialog");
       setUpdateTaskDialogVisible();
     } catch (error) {
       const errorMessage = error.response?.data?.error;
@@ -146,7 +147,7 @@ function UpdateTaskDialog(props) {
         {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
 
         <span>
-          <button type="button" onClick={setUpdateTaskDialogVisible}>
+          <button type="button" onClick={() => toggleDialog("updateDialog")}>
             Cancel
           </button>
           <button type="button" onClick={handleUpdateTask}>
