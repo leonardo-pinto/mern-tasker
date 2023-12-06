@@ -38,7 +38,7 @@ function RegisterForm() {
   }
   return (
     <>
-      <form>
+      <form onClick={handleSubmit}>
         <h1>Register</h1>
         <label htmlFor="username">Username:</label>
         <input
@@ -64,7 +64,9 @@ function RegisterForm() {
           id="password"
           name="password"
         />
-        <input type="submit" value="Register" onClick={handleSubmit} />
+        <button type="button" onClick={handleSubmit}>
+          Register
+        </button>
       </form>
     </>
   );
