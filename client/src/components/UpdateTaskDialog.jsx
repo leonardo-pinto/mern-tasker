@@ -4,13 +4,14 @@ function UpdateTaskDialog(props) {
   const {
     setUpdateTaskDialogVisible,
     updateTask,
-    task: { _id, title, description, date, status },
+    task: { title, description, date, status },
   } = props;
 
   const [updatedTitle, setUpdatedTitle] = useState(title);
   const [updatedDescription, setUpdatedDescription] = useState(description);
   const [updatedDate, setUpdatedDate] = useState(date);
   const [updatedStatus, setUpdatedStatus] = useState(status);
+  const [errorApi, setErrorApi] = useState([]);
 
   function handleTitle(e) {
     setUpdatedTitle(e.target.value);
@@ -28,16 +29,21 @@ function UpdateTaskDialog(props) {
     setUpdatedStatus(e.target.value);
   }
 
-  function handleUpdateTask(e) {
-    e.preventDefault();
-    const updatedTask = {
-      title: updatedTitle,
-      description: updatedDescription,
-      date: updatedDate,
-      status: updatedStatus,
-    };
-    updateTask(updatedTask);
-    setUpdateTaskDialogVisible();
+  async function handleUpdateTask(e) {
+    try {
+      e.preventDefault();
+      const updatedTask = {
+        title: updatedTitle,
+        description: updatedDescription,
+        date: updatedDate,
+        status: updatedStatus,
+      };
+      await updateTask(updatedTask);
+      setUpdateTaskDialogVisible();
+    } catch (error) {
+      const errorMessage = error.response?.data?.error;
+      setErrorApi(errorMessage.split(","));
+    }
   }
 
   return (
@@ -137,6 +143,7 @@ function UpdateTaskDialog(props) {
         />
 
         <br />
+        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
 
         <span>
           <button type="button" onClick={setUpdateTaskDialogVisible}>
