@@ -39,7 +39,7 @@ function Tasks() {
         theme: "colored",
       });
     } catch (error) {
-      console.error(`Error while creating task: ${JSON.stringify(error)}`);
+      throw error;
     }
   }
 
@@ -53,7 +53,7 @@ function Tasks() {
         theme: "colored",
       });
     } catch (error) {
-      console.error(`Error while deleting task: ${JSON.stringify(error)}`);
+      throw error;
     }
   }
 
@@ -72,7 +72,7 @@ function Tasks() {
         theme: "colored",
       });
     } catch (error) {
-      console.error(`Error while updating task: ${JSON.stringify(error)}`);
+      throw error;
     }
   }
 

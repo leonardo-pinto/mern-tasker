@@ -10,46 +10,28 @@ function CreateTaskDialog(props) {
     status: "Pending",
   });
 
+  const [errorApi, setErrorApi] = useState([]);
+
   function handleValues(e) {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleCreateNewTask();
-    toggleDialog("createDialog");
-  }
-
-  function handleCreateNewTask() {
-    createNewTask(values);
+  async function handleSubmit(e) {
+    try {
+      e.preventDefault();
+      await createNewTask(values);
+      toggleDialog("createDialog");
+      setVisible();
+    } catch (error) {
+      const errorMessage = error.response?.data?.error;
+      setErrorApi(errorMessage.split(","));
+    }
   }
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        display: "flex",
-        direction: "row",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100%",
-        zIndex: "100",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.4)",
-      }}
-    >
-      <form
-        style={{
-          backgroundColor: "white",
-          border: "1px solid #ccc",
-          padding: "20px",
-          maxWidth: "300px",
-          margin: "auto",
-        }}
-      >
+    <div className="dialog">
+      <form className="dialog-form">
         <h1>Create New Task</h1>
         <label htmlFor="title">Title:</label>
         <input
@@ -58,16 +40,7 @@ function CreateTaskDialog(props) {
           type="text"
           id="title"
           name="title"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
-
-        <br />
 
         <label htmlFor="description">Description:</label>
         <input
@@ -76,16 +49,7 @@ function CreateTaskDialog(props) {
           type="text"
           id="description"
           name="description"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
-
-        <br />
 
         <label htmlFor="date">Date:</label>
         <input
@@ -94,18 +58,11 @@ function CreateTaskDialog(props) {
           type="date"
           id="date"
           name="date"
-          required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
         />
 
-        <br />
+        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
 
-        <span>
+        <span className="flex">
           <button type="button" onClick={() => toggleDialog("createDialog")}>
             Cancel
           </button>
