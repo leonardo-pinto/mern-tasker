@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function LoginForm() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errorApi, setErrorApi] = useState([]);
   const navigate = useNavigate();
 
   function handleUserName(e) {
@@ -28,7 +29,8 @@ function LoginForm() {
       navigate("/", { replace: true });
       setLocalStorage(result);
     } catch (error) {
-      console.error(`Error while login user: ${JSON.stringify(error)}`);
+      const errorMessage = error.response?.data?.error;
+      setErrorApi(errorMessage.split(","));
     }
   }
   return (
@@ -77,6 +79,7 @@ function LoginForm() {
         />
 
         <br />
+        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
 
         <input
           onClick={handleSubmit}
