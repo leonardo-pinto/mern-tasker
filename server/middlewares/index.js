@@ -16,6 +16,18 @@ exports.validateToken = async (req, res, next) => {
   }
 };
 
+exports.handleValidationError = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let errorMessage = errors.errors.map((error) => error.msg).join(",");
+    return res.status(400).json({
+      error: errorMessage,
+    });
+  } else {
+    next();
+  }
+};
+
 exports.validateRegister = [
   body("username")
     .isLength(6)
@@ -24,17 +36,7 @@ exports.validateRegister = [
     .isLength(6)
     .withMessage("Password should have at least six characters"),
   body("email").isEmail().withMessage("Email format is invalid"),
-  (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
-    } else {
-      next();
-    }
-  },
+  this.handleValidationError,
 ];
 
 exports.validateLogin = [
@@ -44,15 +46,12 @@ exports.validateLogin = [
   body("password")
     .isLength(6)
     .withMessage("Password should have at least six characters"),
-  (req, res, next) => {
-    const errors = validationResult(req);
+  this.handleValidationError,
+];
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
-    } else {
-      next();
-    }
-  },
+exports.validateTask = [
+  body("title").not().isEmpty().withMessage("Task title should not be empty"),
+  body("status").not().isEmpty().withMessage("Status should not be empty"),
+  body("date").not().isEmpty().withMessage("Date format is not valid"),
+  this.handleValidationError,
 ];
