@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { login } from "../api/authApi";
-import { setLocalStorage } from "../utils";
+import { setLocalStorage } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { loginHookFormValidation } from "../utils/validation/";
 
-function LoginForm() {
+export default function LoginForm() {
   const {
     register,
     handleSubmit,
@@ -14,11 +15,11 @@ function LoginForm() {
   const [errorApi, setErrorApi] = useState([]);
   const navigate = useNavigate();
 
-  async function handleRegistration(data) {
+  async function handleLogin(data) {
     try {
-      const { userName, password } = data;
+      const { username, password } = data;
       const result = await login({
-        username: userName,
+        username,
         password,
       });
 
@@ -30,48 +31,34 @@ function LoginForm() {
     }
   }
 
-  const loginOptions = {
-    userName: {
-      required: "User name is required",
-      minLength: {
-        value: 6,
-        message: "User name must have at least 6 characters",
-      },
-    },
-    password: {
-      required: "Password is required",
-      minLength: {
-        value: 6,
-        message: "Password must have at least 6 characters",
-      },
-    },
-  };
-
   return (
     <>
-      <form onSubmit={handleSubmit(handleRegistration)}>
+      <form onSubmit={handleSubmit(handleLogin)}>
         <h1>Login</h1>
         <label htmlFor="username">Username:</label>
-
         <input
           type="text"
           name="username"
-          {...register("userName", loginOptions.userName)}
+          {...register("username", loginHookFormValidation.username)}
         />
-        <p>{errors?.userName && errors.userName.message}</p>
+        <p className="error-message">
+          {errors?.username && errors.username.message}
+        </p>
 
         <label htmlFor="password">Password:</label>
         <input
           type="password"
           name="password"
-          {...register("password", loginOptions.password)}
+          {...register("password", loginHookFormValidation.password)}
         />
-        <p>{errors?.password && errors.password.message}</p>
+        <p className="error-message">
+          {errors?.password && errors.password.message}
+        </p>
 
-        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
-        <button>Login</button>
+        {errorApi.length > 0 &&
+          errorApi.map((error) => <p className="error-message">{error}</p>)}
+        <button type="submit">Login</button>
       </form>
     </>
   );
 }
-export default LoginForm;
