@@ -41,7 +41,9 @@ export default function CreateTaskDialog(props) {
           {...register("title", createTaskHookFormValidation.title)}
         />
 
-        <p className="error-message">{errors?.title && errors.title.message}</p>
+        {errors?.title ? (
+          <p className="error-message">{errors.title?.message}</p>
+        ) : null}
 
         <label htmlFor="description">Description:</label>
         <input type="text" name="description" {...register("description")} />
@@ -56,16 +58,24 @@ export default function CreateTaskDialog(props) {
           {...register("date", createTaskHookFormValidation.date)}
         />
 
-        <p className="error-message">{errors?.date && errors.date.message}</p>
+        {errors?.date ? (
+          <p className="error-message">{errors.date?.message}</p>
+        ) : null}
 
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}
 
-        <span className="flex">
-          <button type="button" onClick={() => toggleDialog("createDialog")}>
+        <span className="flex task-btn-wrapper">
+          <button
+            className="red-bg"
+            type="button"
+            onClick={() => toggleDialog("createDialog")}
+          >
             Cancel
           </button>
-          <button type="submit">Create</button>
+          <button className="green-bg" type="submit">
+            Create
+          </button>
         </span>
       </form>
     </div>

@@ -41,17 +41,19 @@ export default function RegisterForm() {
           name="username"
           {...register("username", registerHookFormValidation.username)}
         />
-        <p className="error-message">
-          {errors?.username && errors.username.message}
-        </p>
+        {errors?.username ? (
+          <p className="error-message">{errors.username?.message}</p>
+        ) : null}
 
         <label htmlFor="email">Email:</label>
         <input
           type="email"
           name="email"
-          {...register("password", registerHookFormValidation.email)}
+          {...register("email", registerHookFormValidation.email)}
         />
-        <p className="error-message">{errors?.email && errors.email.message}</p>
+        {errors?.email ? (
+          <p className="error-message">{errors.email?.message}</p>
+        ) : null}
 
         <label htmlFor="password">Password:</label>
         <input
@@ -59,14 +61,14 @@ export default function RegisterForm() {
           name="password"
           {...register("password", registerHookFormValidation.password)}
         />
-        <p className="error-message">
-          {errors?.password && errors.password.message}
-        </p>
+        {errors?.password ? (
+          <p className="error-message">{errors.password?.message}</p>
+        ) : null}
 
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}
 
-        <button type="button">Register</button>
+        <button type="submit">Register</button>
       </form>
     </>
   );

@@ -16,19 +16,23 @@ function DeleteTaskDialog(props) {
 
   return (
     <div className="dialog">
-      <div className="dialog-form">
+      <form className="dialog-form delete-task-container">
         <h1>Delete Task</h1>
         <p>Are you sure you want to delete this task?</p>
         {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
-        <span>
-          <button type="button" onClick={() => toggleDialog("deleteDialog")}>
+        <span className="flex task-btn-wrapper">
+          <button
+            className="red-bg"
+            type="button"
+            onClick={() => toggleDialog("deleteDialog")}
+          >
             Cancel
           </button>
-          <button type="button" onClick={handleDeleteTask}>
+          <button className="green-bg" type="button" onClick={handleDeleteTask}>
             Delete
           </button>
         </span>
-      </div>
+      </form>
     </div>
   );
 }

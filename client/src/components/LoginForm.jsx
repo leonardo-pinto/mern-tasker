@@ -41,9 +41,9 @@ export default function LoginForm() {
           name="username"
           {...register("username", loginHookFormValidation.username)}
         />
-        <p className="error-message">
-          {errors?.username && errors.username.message}
-        </p>
+        {errors?.username ? (
+          <p className="error-message">{errors.username?.message}</p>
+        ) : null}
 
         <label htmlFor="password">Password:</label>
         <input
@@ -51,9 +51,9 @@ export default function LoginForm() {
           name="password"
           {...register("password", loginHookFormValidation.password)}
         />
-        <p className="error-message">
-          {errors?.password && errors.password.message}
-        </p>
+        {errors?.password ? (
+          <p className="error-message">{errors.password?.message}</p>
+        ) : null}
 
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}

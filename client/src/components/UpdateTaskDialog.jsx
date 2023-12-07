@@ -39,98 +39,57 @@ export default function UpdateTaskDialog(props) {
   }
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        display: "flex",
-        direction: "row",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100%",
-        zIndex: "100",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.4)",
-      }}
-    >
-      <form
-        onSubmit={handleSubmit(handleUpdateTask)}
-        style={{
-          backgroundColor: "white",
-          border: "1px solid #ccc",
-          padding: "20px",
-          maxWidth: "300px",
-          margin: "auto",
-        }}
-      >
+    <div className="dialog">
+      <form onSubmit={handleSubmit(handleUpdateTask)} className="dialog-form">
         <h1>Update Task</h1>
         <label htmlFor="title">Title:</label>
         <input
           type="text"
           name="title"
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
           {...register("title", updateTaskHookFormValidation.title)}
         />
-        {errors?.title && errors.title.message}
+        {errors?.title ? (
+          <p className="error-message">{errors.title?.message}</p>
+        ) : null}
 
         <label htmlFor="description">Description:</label>
-        <input
-          type="text"
-          name="description"
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
-          {...register("description")}
-        />
+        <input type="text" name="description" {...register("description")} />
 
         <label htmlFor="date">Date:</label>
         <input
           type="date"
           name="date"
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
           {...register("date", updateTaskHookFormValidation.date)}
         />
-        <p className="error-message">{errors?.date && errors.date.message}</p>
+        {errors?.date ? (
+          <p className="error-message">{errors.date?.message}</p>
+        ) : null}
 
         <label htmlFor="status">Status:</label>
         <input
           type="text"
           name="status"
           required
-          style={{
-            width: "100%",
-            padding: "8px",
-            margin: "8px 0",
-            boxSizing: "border-box",
-          }}
           {...register("status", updateTaskHookFormValidation.status)}
         />
-        <p className="error-message">
-          {errors?.status && errors.status.message}
-        </p>
+        {errors?.status ? (
+          <p className="error-message">{errors.status?.message}</p>
+        ) : null}
         <br />
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}
 
-        <span>
-          <button type="button" onClick={() => toggleDialog("updateDialog")}>
+        <span className="flex task-btn-wrapper">
+          <button
+            className="red-bg"
+            type="button"
+            onClick={() => toggleDialog("updateDialog")}
+          >
             Cancel
           </button>
-          <button type="submit">Update</button>
+          <button className="green-bg" type="submit">
+            Update
+          </button>
         </span>
       </form>
     </div>
