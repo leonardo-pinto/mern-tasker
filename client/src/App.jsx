@@ -3,7 +3,7 @@ import NavigationBar from "./components/nav/NavigationBar";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import Tasks from "./views/Tasks";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/common/ProtectedRoute";
 
 function App() {
   return (
