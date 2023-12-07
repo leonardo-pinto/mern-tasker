@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import TheTask from "../components/TheTask";
-import CreateTaskDialog from "../components/CreateTaskDialog";
-import UpdateTaskDialog from "../components/UpdateTaskDialog";
-import DeleteTaskDialog from "../components/DeleteTaskDialog";
+import CreateTaskDialog from "../components/tasks/CreateTaskDialog";
+import UpdateTaskDialog from "../components/tasks/UpdateTaskDialog";
+import DeleteTaskDialog from "../components/tasks/DeleteTaskDialog";
+import TasksTable from "../components/tasks/TasksTable";
 import {
   getAllTasksApi,
   createTaskApi,
@@ -123,17 +123,11 @@ function Tasks() {
           toggleDialog={handleShowTaskDialog}
         />
       )}
-      <div>
-        {tasks.map((task) => {
-          return (
-            <TheTask
-              task={task}
-              key={task._id}
-              toggleDialog={handleShowTaskDialog}
-            />
-          );
-        })}
-      </div>
+      {tasks.length ? (
+        <TasksTable tasks={tasks} toggleDialog={handleShowTaskDialog} />
+      ) : (
+        <h3>You don't have any tasks...start by creating one!</h3>
+      )}
     </>
   );
 }
