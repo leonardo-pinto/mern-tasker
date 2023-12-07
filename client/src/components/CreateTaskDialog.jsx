@@ -1,26 +1,27 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { createTaskHookFormValidation } from "../utils/validation";
 
-function CreateTaskDialog(props) {
+export default function CreateTaskDialog(props) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
   const { toggleDialog, createNewTask } = props;
-
-  const [values, setValues] = useState({
-    title: "",
-    description: "",
-    date: "",
-    status: "Pending",
-  });
 
   const [errorApi, setErrorApi] = useState([]);
 
-  function handleValues(e) {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  }
-
-  async function handleSubmit(e) {
+  async function handleCreateTask(data) {
     try {
-      e.preventDefault();
-      await createNewTask(values);
+      const { title, description, date } = data;
+      const task = {
+        title,
+        description,
+        date,
+        status: "Pending",
+      };
+      await createNewTask(task);
       toggleDialog("createDialog");
       setVisible();
     } catch (error) {
@@ -31,48 +32,42 @@ function CreateTaskDialog(props) {
 
   return (
     <div className="dialog">
-      <form className="dialog-form">
+      <form className="dialog-form" onSubmit={handleSubmit(handleCreateTask)}>
         <h1>Create New Task</h1>
         <label htmlFor="title">Title:</label>
         <input
-          value={values.title}
-          onChange={handleValues}
-          type="text"
-          id="title"
           name="title"
+          type="text"
+          {...register("title", createTaskHookFormValidation.title)}
         />
+
+        <p className="error-message">{errors?.title && errors.title.message}</p>
 
         <label htmlFor="description">Description:</label>
-        <input
-          value={values.description}
-          onChange={handleValues}
-          type="text"
-          id="description"
-          name="description"
-        />
+        <input type="text" name="description" {...register("description")} />
 
+        <p className="error-message">
+          {errors?.description && errors.description.message}
+        </p>
         <label htmlFor="date">Date:</label>
         <input
-          value={values.date}
-          onChange={handleValues}
           type="date"
-          id="date"
           name="date"
+          {...register("date", createTaskHookFormValidation.date)}
         />
 
-        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
+        <p className="error-message">{errors?.date && errors.date.message}</p>
+
+        {errorApi.length > 0 &&
+          errorApi.map((error) => <p className="error-message">{error}</p>)}
 
         <span className="flex">
           <button type="button" onClick={() => toggleDialog("createDialog")}>
             Cancel
           </button>
-          <button type="button" onClick={handleSubmit} style={{}}>
-            Create
-          </button>
+          <button type="submit">Create</button>
         </span>
       </form>
     </div>
   );
 }
-
-export default CreateTaskDialog;

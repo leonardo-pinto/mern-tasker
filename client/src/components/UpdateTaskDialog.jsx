@@ -1,42 +1,33 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { updateTaskHookFormValidation } from "../utils/validation";
 
-function UpdateTaskDialog(props) {
+export default function UpdateTaskDialog(props) {
+  const { toggleDialog, updateTask, task } = props;
   const {
-    toggleDialog,
-    updateTask,
-    task: { title, description, date, status },
-  } = props;
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      title: task.title,
+      description: task.description,
+      date: task.date,
+      status: task.status,
+    },
+  });
 
-  const [updatedTitle, setUpdatedTitle] = useState(title);
-  const [updatedDescription, setUpdatedDescription] = useState(description);
-  const [updatedDate, setUpdatedDate] = useState(date);
-  const [updatedStatus, setUpdatedStatus] = useState(status);
   const [errorApi, setErrorApi] = useState([]);
 
-  function handleTitle(e) {
-    setUpdatedTitle(e.target.value);
-  }
-
-  function handleDescription(e) {
-    setUpdatedDescription(e.target.value);
-  }
-
-  function handleDate(e) {
-    setUpdatedDate(e.target.value);
-  }
-
-  function handleStatus(e) {
-    setUpdatedStatus(e.target.value);
-  }
-
-  async function handleUpdateTask(e) {
+  async function handleUpdateTask(data) {
+    const { title, description, date, status } = data;
     try {
-      e.preventDefault();
       const updatedTask = {
-        title: updatedTitle,
-        description: updatedDescription,
-        date: updatedDate,
-        status: updatedStatus,
+        title,
+        description,
+        date,
+        status,
       };
       await updateTask(updatedTask);
       toggleDialog("updateDialog");
@@ -64,6 +55,7 @@ function UpdateTaskDialog(props) {
       }}
     >
       <form
+        onSubmit={handleSubmit(handleUpdateTask)}
         style={{
           backgroundColor: "white",
           border: "1px solid #ccc",
@@ -75,64 +67,48 @@ function UpdateTaskDialog(props) {
         <h1>Update Task</h1>
         <label htmlFor="title">Title:</label>
         <input
-          value={updatedTitle}
-          onChange={handleTitle}
           type="text"
-          id="title"
           name="title"
-          required
           style={{
             width: "100%",
             padding: "8px",
             margin: "8px 0",
             boxSizing: "border-box",
           }}
+          {...register("title", updateTaskHookFormValidation.title)}
         />
-
-        <br />
+        {errors?.title && errors.title.message}
 
         <label htmlFor="description">Description:</label>
         <input
-          value={updatedDescription}
-          onChange={handleDescription}
           type="text"
-          id="description"
           name="description"
-          required
           style={{
             width: "100%",
             padding: "8px",
             margin: "8px 0",
             boxSizing: "border-box",
           }}
+          {...register("description")}
         />
-
-        <br />
 
         <label htmlFor="date">Date:</label>
         <input
-          value={updatedDate}
-          onChange={handleDate}
           type="date"
-          id="date"
           name="date"
-          required
           style={{
             width: "100%",
             padding: "8px",
             margin: "8px 0",
             boxSizing: "border-box",
           }}
+          {...register("date", updateTaskHookFormValidation.date)}
         />
-
-        <br></br>
+        <p className="error-message">{errors?.date && errors.date.message}</p>
 
         <label htmlFor="status">Status:</label>
         <input
-          value={updatedStatus}
-          onChange={handleStatus}
           type="text"
-          id="status"
           name="status"
           required
           style={{
@@ -141,22 +117,22 @@ function UpdateTaskDialog(props) {
             margin: "8px 0",
             boxSizing: "border-box",
           }}
+          {...register("status", updateTaskHookFormValidation.status)}
         />
-
+        <p className="error-message">
+          {errors?.status && errors.status.message}
+        </p>
         <br />
-        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
+        {errorApi.length > 0 &&
+          errorApi.map((error) => <p className="error-message">{error}</p>)}
 
         <span>
           <button type="button" onClick={() => toggleDialog("updateDialog")}>
             Cancel
           </button>
-          <button type="button" onClick={handleUpdateTask}>
-            Update
-          </button>
+          <button type="submit">Update</button>
         </span>
       </form>
     </div>
   );
 }
-
-export default UpdateTaskDialog;

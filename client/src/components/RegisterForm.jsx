@@ -1,25 +1,24 @@
 import { useState } from "react";
-import { register } from "../api/authApi";
-import { setLocalStorage } from "../utils";
+import { registerUser } from "../api/authApi";
+import { setLocalStorage } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { registerHookFormValidation } from "../utils/validation";
 
-function RegisterForm() {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
   const [errorApi, setErrorApi] = useState([]);
   const navigate = useNavigate();
 
-  function handleUserName(e) {
-    setUserName(e.target.value);
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-
+  async function handleRegister(data) {
     try {
-      const result = await register({
-        username: userName,
+      const { username, email, password } = data;
+      const result = await registerUser({
+        username,
         email,
         password,
       });
@@ -31,49 +30,44 @@ function RegisterForm() {
       setErrorApi(errorMessage.split(","));
     }
   }
-  function handlePassword(e) {
-    setPassword(e.target.value);
-  }
 
-  function handleEmail(e) {
-    setEmail(e.target.value);
-  }
   return (
     <>
-      <form onClick={handleSubmit}>
+      <form onSubmit={handleSubmit(handleRegister)}>
         <h1>Register</h1>
         <label htmlFor="username">Username:</label>
         <input
-          value={userName}
-          onChange={handleUserName}
           type="text"
-          id="username"
           name="username"
+          {...register("username", registerHookFormValidation.username)}
         />
+        <p className="error-message">
+          {errors?.username && errors.username.message}
+        </p>
+
         <label htmlFor="email">Email:</label>
         <input
-          value={email}
-          onChange={handleEmail}
           type="email"
-          id="email"
           name="email"
+          {...register("password", registerHookFormValidation.email)}
         />
+        <p className="error-message">{errors?.email && errors.email.message}</p>
+
         <label htmlFor="password">Password:</label>
         <input
-          value={password}
-          onChange={handlePassword}
           type="password"
-          id="password"
           name="password"
+          {...register("password", registerHookFormValidation.password)}
         />
-        {errorApi.length > 0 && errorApi.map((error) => <p>{error}</p>)}
+        <p className="error-message">
+          {errors?.password && errors.password.message}
+        </p>
 
-        <button type="button" onClick={handleSubmit}>
-          Register
-        </button>
+        {errorApi.length > 0 &&
+          errorApi.map((error) => <p className="error-message">{error}</p>)}
+
+        <button type="button">Register</button>
       </form>
     </>
   );
 }
-
-export default RegisterForm;
