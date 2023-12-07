@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { updateTaskHookFormValidation } from "../../utils/validation";
+import TheLoader from "../common/TheLoader";
 
 export default function UpdateTaskDialog(props) {
   const { toggleDialog, updateTask, task } = props;
@@ -18,6 +19,7 @@ export default function UpdateTaskDialog(props) {
     },
   });
 
+  const [isLoading, setIsLoading] = useState(false);
   const [errorApi, setErrorApi] = useState([]);
 
   async function handleUpdateTask(data) {
@@ -29,12 +31,15 @@ export default function UpdateTaskDialog(props) {
         date,
         status,
       };
+      setIsLoading(true);
       await updateTask(updatedTask);
       toggleDialog("updateDialog");
       setUpdateTaskDialogVisible();
     } catch (error) {
       const errorMessage = error.response?.data?.error;
       setErrorApi(errorMessage.split(","));
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -79,7 +84,7 @@ export default function UpdateTaskDialog(props) {
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}
 
-        <span className="flex task-btn-wrapper">
+        { isLoading ? <TheLoader /> : <span className="flex task-btn-wrapper">
           <button
             className="red-bg"
             type="button"
@@ -90,7 +95,7 @@ export default function UpdateTaskDialog(props) {
           <button className="green-bg" type="submit">
             Update
           </button>
-        </span>
+        </span>}
       </form>
     </div>
   );

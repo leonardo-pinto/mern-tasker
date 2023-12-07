@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createTaskHookFormValidation } from "../../utils/validation";
+import TheLoader from "../common/TheLoader";
 
 export default function CreateTaskDialog(props) {
   const {
@@ -10,6 +11,7 @@ export default function CreateTaskDialog(props) {
   } = useForm({ mode: "onBlur" });
   const { toggleDialog, createNewTask } = props;
 
+  const [isLoading, setIsLoading] = useState(false);
   const [errorApi, setErrorApi] = useState([]);
 
   async function handleCreateTask(data) {
@@ -21,12 +23,15 @@ export default function CreateTaskDialog(props) {
         date,
         status: "Pending",
       };
+      setIsLoading(true);
       await createNewTask(task);
       toggleDialog("createDialog");
       setVisible();
     } catch (error) {
       const errorMessage = error.response?.data?.error;
       setErrorApi(errorMessage.split(","));
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -65,18 +70,22 @@ export default function CreateTaskDialog(props) {
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}
 
-        <span className="flex task-btn-wrapper">
-          <button
-            className="red-bg"
-            type="button"
-            onClick={() => toggleDialog("createDialog")}
-          >
-            Cancel
-          </button>
-          <button className="green-bg" type="submit">
-            Create
-          </button>
-        </span>
+        {isLoading ? (
+          <TheLoader />
+        ) : (
+          <span className="flex task-btn-wrapper">
+            <button
+              className="red-bg"
+              type="button"
+              onClick={() => toggleDialog("createDialog")}
+            >
+              Cancel
+            </button>
+            <button className="green-bg" type="submit">
+              Create
+            </button>
+          </span>
+        )}
       </form>
     </div>
   );

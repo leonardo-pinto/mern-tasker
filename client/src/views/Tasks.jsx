@@ -9,6 +9,7 @@ import {
   deleteTaskApi,
   updateTaskApi,
 } from "../api/taskApi";
+import TheLoader from "../components/common/TheLoader";
 import { toast, ToastContainer } from "react-toastify";
 
 function Tasks() {
@@ -20,13 +21,17 @@ function Tasks() {
   const [idTaskToDelete, setIdTaskToDelete] = useState();
   const [taskToUpdate, setTaskToUpdate] = useState();
   const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getTasks() {
     try {
+      setIsLoading(true);
       const response = await getAllTasksApi();
       setTasks(response);
     } catch (error) {
       console.error(`Error while retrieving tasks: ${JSON.stringify(error)}`);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -123,11 +128,13 @@ function Tasks() {
           toggleDialog={handleShowTaskDialog}
         />
       )}
-      {tasks.length ? (
-        <TasksTable tasks={tasks} toggleDialog={handleShowTaskDialog} />
-      ) : (
+      {!tasks.length && !isLoading ? (
         <h3>You don't have any tasks...start by creating one!</h3>
-      )}
+      ) : null}
+      {!tasks.length && isLoading ? <TheLoader /> : null}
+      {tasks.length && !isLoading ? (
+        <TasksTable tasks={tasks} toggleDialog={handleShowTaskDialog} />
+      ) : null}
     </>
   );
 }
