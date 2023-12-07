@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import TheTask from "../components/TheTask";
-import CreateTaskDialog from "../components/CreateTaskDialog";
-import UpdateTaskDialog from "../components/UpdateTaskDialog";
-import DeleteTaskDialog from "../components/DeleteTaskDialog";
+import CreateTaskDialog from "../components/tasks/CreateTaskDialog";
+import UpdateTaskDialog from "../components/tasks/UpdateTaskDialog";
+import DeleteTaskDialog from "../components/tasks/DeleteTaskDialog";
+import TasksTable from "../components/tasks/TasksTable";
 import {
   getAllTasksApi,
   createTaskApi,
   deleteTaskApi,
   updateTaskApi,
 } from "../api/taskApi";
+import TheLoader from "../components/common/TheLoader";
 import { toast, ToastContainer } from "react-toastify";
 
 function Tasks() {
@@ -20,13 +21,17 @@ function Tasks() {
   const [idTaskToDelete, setIdTaskToDelete] = useState();
   const [taskToUpdate, setTaskToUpdate] = useState();
   const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getTasks() {
     try {
+      setIsLoading(true);
       const response = await getAllTasksApi();
       setTasks(response);
     } catch (error) {
       console.error(`Error while retrieving tasks: ${JSON.stringify(error)}`);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -103,44 +108,33 @@ function Tasks() {
       >
         Create New Task
       </button>
-      {showTaskDialog.createDialog ? (
+      {showTaskDialog.createDialog && (
         <CreateTaskDialog
           toggleDialog={handleShowTaskDialog}
           createNewTask={createNewTask}
         />
-      ) : (
-        <></>
       )}
-      {showTaskDialog.updateDialog ? (
+      {showTaskDialog.updateDialog && (
         <UpdateTaskDialog
           toggleDialog={handleShowTaskDialog}
           task={taskToUpdate}
           updateTask={updateTask}
         />
-      ) : (
-        <></>
       )}
-      {showTaskDialog.deleteDialog ? (
+      {showTaskDialog.deleteDialog && (
         <DeleteTaskDialog
           deleteTask={deleteTask}
           idTaskToDelete={idTaskToDelete}
           toggleDialog={handleShowTaskDialog}
         />
-      ) : (
-        <></>
       )}
-      <div>
-        {tasks.map((task) => {
-          return (
-            <TheTask
-              task={task}
-              key={task._id}
-              handleShowUpdateTaskDialog={handleShowTaskDialog}
-              handleShowDeleteTaskDialog={handleShowTaskDialog}
-            />
-          );
-        })}
-      </div>
+      {!tasks.length && !isLoading ? (
+        <h3>You don't have any tasks...start by creating one!</h3>
+      ) : null}
+      {!tasks.length && isLoading ? <TheLoader /> : null}
+      {tasks.length && !isLoading ? (
+        <TasksTable tasks={tasks} toggleDialog={handleShowTaskDialog} />
+      ) : null}
     </>
   );
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { clearLocalStorage } from "../utils/index";
+import { clearLocalStorage } from "../utils/auth";
 
 const httpClient = axios.create({
   baseURL: "http://localhost:3000/api",
