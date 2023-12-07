@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import NavigationBar from "./components/NavigationBar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NavigationBar from "./components/nav/NavigationBar";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import Tasks from "./views/Tasks";

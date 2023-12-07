@@ -1,6 +1,6 @@
-import mernLogo from "../assets/logo.png";
+import mernLogo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { clearLocalStorage, isAuthenticated } from "../utils/auth";
+import { clearLocalStorage, isAuthenticated } from "../../utils/auth";
 
 function NavigationBar() {
   const navigate = useNavigate();

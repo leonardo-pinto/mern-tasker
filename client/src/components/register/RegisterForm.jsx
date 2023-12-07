@@ -1,25 +1,25 @@
 import { useState } from "react";
-import { login } from "../api/authApi";
-import { setLocalStorage } from "../utils/auth";
+import { registerUser } from "../../api/authApi";
+import { setLocalStorage } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { loginHookFormValidation } from "../utils/validation/";
+import { registerHookFormValidation } from "../../utils/validation";
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
-
   const [errorApi, setErrorApi] = useState([]);
   const navigate = useNavigate();
 
-  async function handleLogin(data) {
+  async function handleRegister(data) {
     try {
-      const { username, password } = data;
-      const result = await login({
+      const { username, email, password } = data;
+      const result = await registerUser({
         username,
+        email,
         password,
       });
 
@@ -33,23 +33,33 @@ export default function LoginForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(handleLogin)}>
-        <h1>Login</h1>
+      <form onSubmit={handleSubmit(handleRegister)}>
+        <h1>Register</h1>
         <label htmlFor="username">Username:</label>
         <input
           type="text"
           name="username"
-          {...register("username", loginHookFormValidation.username)}
+          {...register("username", registerHookFormValidation.username)}
         />
         {errors?.username ? (
           <p className="error-message">{errors.username?.message}</p>
+        ) : null}
+
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          name="email"
+          {...register("email", registerHookFormValidation.email)}
+        />
+        {errors?.email ? (
+          <p className="error-message">{errors.email?.message}</p>
         ) : null}
 
         <label htmlFor="password">Password:</label>
         <input
           type="password"
           name="password"
-          {...register("password", loginHookFormValidation.password)}
+          {...register("password", registerHookFormValidation.password)}
         />
         {errors?.password ? (
           <p className="error-message">{errors.password?.message}</p>
@@ -57,7 +67,8 @@ export default function LoginForm() {
 
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}
-        <button type="submit">Login</button>
+
+        <button type="submit">Register</button>
       </form>
     </>
   );

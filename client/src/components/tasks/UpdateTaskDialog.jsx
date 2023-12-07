@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { updateTaskHookFormValidation } from "../utils/validation";
+import { updateTaskHookFormValidation } from "../../utils/validation";
 
 export default function UpdateTaskDialog(props) {
   const { toggleDialog, updateTask, task } = props;
