@@ -4,6 +4,7 @@ import { setLocalStorage } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { registerHookFormValidation } from "../../utils/validation";
+import TheLoader from "../common/TheLoader";
 
 export default function RegisterForm() {
   const {
@@ -13,10 +14,12 @@ export default function RegisterForm() {
   } = useForm({ mode: "onBlur" });
   const [errorApi, setErrorApi] = useState([]);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleRegister(data) {
     try {
       const { username, email, password } = data;
+      setIsLoading(true);
       const result = await registerUser({
         username,
         email,
@@ -28,6 +31,8 @@ export default function RegisterForm() {
     } catch (error) {
       const errorMessage = error.response?.data?.error;
       setErrorApi(errorMessage.split(","));
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -68,7 +73,7 @@ export default function RegisterForm() {
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}
 
-        <button type="submit">Register</button>
+        {isLoading ? <TheLoader /> : <button type="submit">Register</button>}
       </form>
     </>
   );

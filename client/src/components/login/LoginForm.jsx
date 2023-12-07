@@ -4,6 +4,7 @@ import { setLocalStorage } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { loginHookFormValidation } from "../../utils/validation";
+import TheLoader from "../common/TheLoader";
 
 export default function LoginForm() {
   const {
@@ -13,11 +14,14 @@ export default function LoginForm() {
   } = useForm({ mode: "onBlur" });
 
   const [errorApi, setErrorApi] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   async function handleLogin(data) {
     try {
       const { username, password } = data;
+      setIsLoading(true);
       const result = await login({
         username,
         password,
@@ -28,6 +32,8 @@ export default function LoginForm() {
     } catch (error) {
       const errorMessage = error.response?.data?.error;
       setErrorApi(errorMessage.split(","));
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -57,7 +63,7 @@ export default function LoginForm() {
 
         {errorApi.length > 0 &&
           errorApi.map((error) => <p className="error-message">{error}</p>)}
-        <button type="submit">Login</button>
+        {isLoading ? <TheLoader /> : <button type="submit">Login</button>}
       </form>
     </>
   );
