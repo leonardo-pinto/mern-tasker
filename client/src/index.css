@@ -231,3 +231,7 @@ tr {
     transform: rotate(360deg);
   }
 }
+
+#table-edit-btn {
+  margin-right: 15px;
+}

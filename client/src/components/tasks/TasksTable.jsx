@@ -21,9 +21,10 @@ export default function TasksTable(props) {
               <td>{task.status}</td>
               <td>{task.date}</td>
               <td>
-                <span className="flex">
+                <span>
                   <button
                     type="button"
+                    id="table-edit-btn"
                     onClick={() => toggleDialog("updateDialog", task)}
                   >
                     Edit
