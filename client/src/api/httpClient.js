@@ -2,7 +2,7 @@ import axios from "axios";
 import { clearLocalStorage } from "../utils/auth";
 
 const httpClient = axios.create({
-  baseURL: "https://mern-tasker-backend.vercel.app/",
+  baseURL: "https://mern-tasker-backend.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },
