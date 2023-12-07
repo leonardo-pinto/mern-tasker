@@ -2,26 +2,26 @@ import PropTypes from "prop-types";
 
 function TheTask(props) {
   const { _id, title, description, status, date } = props.task;
-  const { handleShowDeleteTaskDialog, handleShowUpdateTaskDialog } = props;
+  const { handleShowTaskDialog } = props;
 
   return (
     <div id="task-container">
       <div>
-      <p>Title: {title}</p>
-      <p>Description: {description}</p>
-      <p>Status: {status}</p>
-      <p>Date: {date}</p>
+        <p>Title: {title}</p>
+        <p>Description: {description}</p>
+        <p>Status: {status}</p>
+        <p>Date: {date}</p>
       </div>
       <span>
         <button
           type="button"
-          onClick={() => handleShowUpdateTaskDialog("updateDialog", props.task)}
+          onClick={() => handleShowTaskDialog("updateDialog", props.task)}
         >
           Edit
         </button>
         <button
           type="button"
-          onClick={() => handleShowDeleteTaskDialog("deleteDialog", _id)}
+          onClick={() => handleShowTaskDialog("deleteDialog", _id)}
         >
           Delete
         </button>

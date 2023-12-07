@@ -103,31 +103,25 @@ function Tasks() {
       >
         Create New Task
       </button>
-      {showTaskDialog.createDialog ? (
+      {showTaskDialog.createDialog && (
         <CreateTaskDialog
           toggleDialog={handleShowTaskDialog}
           createNewTask={createNewTask}
         />
-      ) : (
-        <></>
       )}
-      {showTaskDialog.updateDialog ? (
+      {showTaskDialog.updateDialog && (
         <UpdateTaskDialog
           toggleDialog={handleShowTaskDialog}
           task={taskToUpdate}
           updateTask={updateTask}
         />
-      ) : (
-        <></>
       )}
-      {showTaskDialog.deleteDialog ? (
+      {showTaskDialog.deleteDialog && (
         <DeleteTaskDialog
           deleteTask={deleteTask}
           idTaskToDelete={idTaskToDelete}
           toggleDialog={handleShowTaskDialog}
         />
-      ) : (
-        <></>
       )}
       <div>
         {tasks.map((task) => {
@@ -135,8 +129,7 @@ function Tasks() {
             <TheTask
               task={task}
               key={task._id}
-              handleShowUpdateTaskDialog={handleShowTaskDialog}
-              handleShowDeleteTaskDialog={handleShowTaskDialog}
+              toggleDialog={handleShowTaskDialog}
             />
           );
         })}
